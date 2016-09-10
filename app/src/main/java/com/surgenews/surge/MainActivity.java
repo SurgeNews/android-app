@@ -3,6 +3,11 @@ package com.surgenews.surge;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,6 +20,14 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    DemoCollectionPagerAdapter mDemoCollectionPagerAdapter;
+
+    /**
+     * The {@link android.support.v4.view.ViewPager} that will display the object collection.
+     */
+    ViewPager mViewPager;
+    TabLayout mTabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +53,15 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        mDemoCollectionPagerAdapter = new DemoCollectionPagerAdapter(getSupportFragmentManager());
+        // Set up the ViewPager, attaching the adapter.
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager.setAdapter(mDemoCollectionPagerAdapter);
+
+        mTabLayout = (TabLayout) findViewById(R.id.tabs);
+        mTabLayout.setupWithViewPager(mViewPager);
     }
 
     @Override
@@ -97,5 +119,49 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    /**
+     * A {@link android.support.v4.app.FragmentStatePagerAdapter} that returns a fragment
+     * representing an object in the collection.
+     */
+    public static class DemoCollectionPagerAdapter extends FragmentStatePagerAdapter {
+
+        public DemoCollectionPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+            Fragment fragment;
+            if(i == 0){
+                fragment = new ListenFragment();
+                Bundle args = new Bundle();
+                args.putInt(ListenFragment.ARG_OBJECT, i + 1); // Our object is just an integer :-P
+                fragment.setArguments(args);
+            } else {
+                fragment = new ReadFragment();
+                Bundle args = new Bundle();
+                args.putInt(ReadFragment.ARG_OBJECT, i + 1); // Our object is just an integer :-P
+                fragment.setArguments(args);
+            }
+
+            return fragment;
+        }
+
+        @Override
+        public int getCount() {
+            // For this contrived example, we have a 100-object collection.
+            return 2;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            if(position == 0){
+                return "Listen";
+            } else {
+                return "Read";
+            }
+        }
     }
 }
