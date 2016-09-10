@@ -3,10 +3,64 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/fragment_text"
+    <eu.fiskur.chipcloud.ChipCloud
+        android:layout_margin="6dp"
+        android:id="@+id/chip_cloud"
+        android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="default" />
+        />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_below="@id/chip_cloud"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/default_title"
+        android:textAlignment="center"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/iv_play_btn"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_play_circle_filled_black_24dp" />
+
+    <ImageView
+        android:id="@+id/iv_rewind"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/iv_play_btn"
+        android:src="@drawable/ic_fast_rewind_black_24dp" />
+
+    <ImageView
+        android:id="@+id/iv_forward"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/iv_play_btn"
+        android:src="@drawable/ic_fast_forward_black_24dp" />
+
+    <ImageView
+        android:id="@+id/iv_up"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_above="@id/iv_play_btn"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_keyboard_arrow_up_black_24dp" />
+
+
+    <ImageView
+        android:id="@+id/iv_down"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_below="@id/iv_play_btn"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_keyboard_arrow_down_black_24dp" />
+
 
 </RelativeLayout>

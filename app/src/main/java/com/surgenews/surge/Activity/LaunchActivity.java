@@ -1,5 +1,6 @@
 package com.surgenews.surge.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -10,15 +11,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.surgenews.surge.Fragment.ListenFragment;
 import com.surgenews.surge.Fragment.LoginRegisterFragment;
 import com.surgenews.surge.R;
-import com.surgenews.surge.Fragment.ReadFragment;
 
 /**
  * Created by anishhegde on 10/09/16.
  */
-public class LaunchActivity extends AppCompatActivity {
+public class LaunchActivity extends AppCompatActivity implements LoginRegisterFragment.Callback{
 
     public static final int LOGIN = 0;
     public static final int SIGNUP = 1;
@@ -34,7 +33,7 @@ public class LaunchActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mAppPagerAdapter = new AppPagerAdapter(getSupportFragmentManager());
+        mAppPagerAdapter = new AppPagerAdapter(getSupportFragmentManager(),this);
         // Set up the ViewPager, attaching the adapter.
         mViewPager = (ViewPager) findViewById(R.id.login_pager);
         mViewPager.setAdapter(mAppPagerAdapter);
@@ -43,15 +42,31 @@ public class LaunchActivity extends AppCompatActivity {
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
+    @Override
+    public void onLoginClicked() {
+        openNews();
+    }
+
+    @Override
+    public void onSignUpClicked() {
+
+    }
+
+    void openNews(){
+        Intent intent = new Intent(LaunchActivity.this,MainActivity.class);
+        startActivity(intent);
+    }
+
     /**
      * A {@link android.support.v4.app.FragmentStatePagerAdapter} that returns a fragment
      * representing an object in the collection.
      */
     public static class AppPagerAdapter extends FragmentStatePagerAdapter {
+        LoginRegisterFragment.Callback mCallback;
 
-        ReadFragment.Callback mCallback;
-        public AppPagerAdapter(FragmentManager fm) {
+        public AppPagerAdapter(FragmentManager fm, LoginRegisterFragment.Callback callback) {
             super(fm);
+            mCallback = callback;
         }
 
         @Override
@@ -68,7 +83,7 @@ public class LaunchActivity extends AppCompatActivity {
                 args.putInt("TYPE",SIGNUP);
                 fragment.setArguments(args);
             }
-
+            ((LoginRegisterFragment)fragment).setCallback(mCallback);
             return fragment;
         }
 
