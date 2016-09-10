@@ -1,4 +1,4 @@
-package com.surgenews.surge;
+package com.surgenews.surge.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,8 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.surgenews.surge.Fragment.ReadFragment;
+import com.surgenews.surge.Model.RssModelItem;
+import com.surgenews.surge.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

@@ -1,16 +1,19 @@
-package com.surgenews.surge;
+package com.surgenews.surge.Fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.einmalfel.earl.Feed;
 import com.einmalfel.earl.Item;
+import com.surgenews.surge.Controller.DownloadManager;
+import com.surgenews.surge.Adapter.NewsFeedAdapter;
+import com.surgenews.surge.R;
+import com.surgenews.surge.Model.RssModelItem;
 
 import java.util.ArrayList;
 import java.util.List;

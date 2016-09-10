@@ -1,4 +1,4 @@
-package com.surgenews.surge;
+package com.surgenews.surge.Model;
 
 /**
  * Created by anishhegde on 10/09/16.

@@ -1,4 +1,4 @@
-package com.surgenews.surge;
+package com.surgenews.surge.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,11 +19,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.surgenews.surge.Fragment.ListenFragment;
+import com.surgenews.surge.R;
+import com.surgenews.surge.Fragment.ReadFragment;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
         ,ReadFragment.Callback {
 
-    DemoCollectionPagerAdapter mDemoCollectionPagerAdapter;
+    AppPagerAdapter mAppPagerAdapter;
     ViewPager mViewPager;
     TabLayout mTabLayout;
 
@@ -53,10 +57,10 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        mDemoCollectionPagerAdapter = new DemoCollectionPagerAdapter(getSupportFragmentManager(),this);
+        mAppPagerAdapter = new AppPagerAdapter(getSupportFragmentManager(),this);
         // Set up the ViewPager, attaching the adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mDemoCollectionPagerAdapter);
+        mViewPager.setAdapter(mAppPagerAdapter);
 
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
         mTabLayout.setupWithViewPager(mViewPager);
@@ -130,10 +134,10 @@ public class MainActivity extends AppCompatActivity
      * A {@link android.support.v4.app.FragmentStatePagerAdapter} that returns a fragment
      * representing an object in the collection.
      */
-    public static class DemoCollectionPagerAdapter extends FragmentStatePagerAdapter {
+    public static class AppPagerAdapter extends FragmentStatePagerAdapter {
 
         ReadFragment.Callback mCallback;
-        public DemoCollectionPagerAdapter(FragmentManager fm, ReadFragment.Callback callback) {
+        public AppPagerAdapter(FragmentManager fm, ReadFragment.Callback callback) {
             super(fm);
             mCallback = callback;
         }

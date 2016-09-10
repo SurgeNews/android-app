@@ -1,4 +1,4 @@
-package com.surgenews.surge;
+package com.surgenews.surge.Controller;
 
 import android.os.AsyncTask;
 
