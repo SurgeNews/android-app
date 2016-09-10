@@ -22,10 +22,6 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     DemoCollectionPagerAdapter mDemoCollectionPagerAdapter;
-
-    /**
-     * The {@link android.support.v4.view.ViewPager} that will display the object collection.
-     */
     ViewPager mViewPager;
     TabLayout mTabLayout;
 
@@ -137,12 +133,12 @@ public class MainActivity extends AppCompatActivity
             if(i == 0){
                 fragment = new ListenFragment();
                 Bundle args = new Bundle();
-                args.putInt(ListenFragment.ARG_OBJECT, i + 1); // Our object is just an integer :-P
+                args.putInt(ListenFragment.ARG_OBJECT, i + 1);
                 fragment.setArguments(args);
             } else {
                 fragment = new ReadFragment();
                 Bundle args = new Bundle();
-                args.putInt(ReadFragment.ARG_OBJECT, i + 1); // Our object is just an integer :-P
+                args.putInt(ReadFragment.ARG_OBJECT, i + 1);
                 fragment.setArguments(args);
             }
 
@@ -151,7 +147,6 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         public int getCount() {
-            // For this contrived example, we have a 100-object collection.
             return 2;
         }
 
