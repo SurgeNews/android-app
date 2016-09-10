@@ -8,10 +8,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.einmalfel.earl.Feed;
 import com.einmalfel.earl.Item;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by anishhegde on 10/09/16.
@@ -22,8 +24,12 @@ public class ReadFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private NewsFeedAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private String[] mDataSet = {"Hey check this out","What are you doing","You are missing your party"};
+    private List<RssModelItem> mDataSet;
+    private Callback mCallback;
 
+    public void setCallback(Callback callback){
+        mCallback = callback;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,7 +47,8 @@ public class ReadFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new NewsFeedAdapter(mDataSet);
+        mDataSet = new ArrayList<>();
+        mAdapter = new NewsFeedAdapter(mDataSet,getActivity().getApplicationContext(),mCallback);
         mRecyclerView.setAdapter(mAdapter);
         setFeed();
 
@@ -49,23 +56,24 @@ public class ReadFragment extends Fragment {
     }
 
     void setFeed(){
-        DownloadManager.Instance().downloadData("https://news.google.com/news?q=soccer&output=rss", new DownloadManager.Callback() {
+        DownloadManager.Instance().downloadData("http://rss.nytimes.com/services/xml/rss/nyt/InternationalHome.xml", new DownloadManager.Callback() {
             @Override
             public void onFeed(Feed feed) {
                 for (Item item : feed.getItems()) {
-                    String title = item.getTitle();
-                    Log.i("TAG", "Item title: " + (title == null ? "N/A" : title));
+                    RssModelItem rssItem = new RssModelItem();
+                    rssItem.setDescription(item.getDescription());
+                    rssItem.setTitle(item.getTitle());
+                    rssItem.setImageUrl(item.getImageLink());
+                    rssItem.setFeedLink(item.getLink());
+                    mDataSet.add(rssItem);
                 }
+                mAdapter.notifyDataSetChanged();
             }
         });
     }
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
+
+    public interface Callback{
+        void onArticleClick(String url);
     }
 }

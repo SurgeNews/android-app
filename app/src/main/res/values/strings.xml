@@ -5,4 +5,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="default_title">This is a default title. It is supposed to be long</string>
+    <string name="default_long_desc">This is a default long description that would be printed in case no data is received on the client end. Using Rss feeds can get dangerous.</string>
 </resources>

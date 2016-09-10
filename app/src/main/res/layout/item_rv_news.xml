@@ -6,12 +6,47 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/card_view_height"
     android:layout_gravity="center"
-    android:layout_margin="5dp"
+    android:layout_marginLeft="12dp"
+    android:layout_marginRight="12dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
     card_view:cardCornerRadius="4dp"
     card_view:cardElevation="2dp">
 
-    <TextView
-        android:id="@+id/tv_title"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="@dimen/card_view_height"
+            android:layout_height="@dimen/card_view_height"
+            android:id="@+id/iv_feed"
+            android:src="@drawable/surge_placeholder"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_feed"
+            android:textSize="@dimen/title_size"
+            android:paddingTop="5dp"
+            android:paddingLeft="5dp"
+            android:textStyle="bold"
+            android:text="@string/default_title"
+            android:maxLines="2"
+            android:ellipsize="marquee"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_desc"
+            android:text="@string/default_long_desc"
+            android:layout_toRightOf="@id/iv_feed"
+            android:paddingLeft="5dp"
+            android:paddingTop="5dp"
+            android:layout_below="@id/tv_title"
+            android:maxLines="3"
+            android:ellipsize="marquee"/>
+
+    </RelativeLayout>
 </android.support.v7.widget.CardView>

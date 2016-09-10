@@ -1,5 +1,6 @@
 package com.surgenews.surge;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,7 +20,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener
+        ,ReadFragment.Callback {
 
     DemoCollectionPagerAdapter mDemoCollectionPagerAdapter;
     ViewPager mViewPager;
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        mDemoCollectionPagerAdapter = new DemoCollectionPagerAdapter(getSupportFragmentManager());
+        mDemoCollectionPagerAdapter = new DemoCollectionPagerAdapter(getSupportFragmentManager(),this);
         // Set up the ViewPager, attaching the adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mDemoCollectionPagerAdapter);
@@ -117,14 +119,23 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    public void onArticleClick(String url) {
+        Intent intent = new Intent(getBaseContext(), ReadAndRecordActivty.class);
+        intent.putExtra("URL",url);
+        startActivity(intent);
+    }
+
     /**
      * A {@link android.support.v4.app.FragmentStatePagerAdapter} that returns a fragment
      * representing an object in the collection.
      */
     public static class DemoCollectionPagerAdapter extends FragmentStatePagerAdapter {
 
-        public DemoCollectionPagerAdapter(FragmentManager fm) {
+        ReadFragment.Callback mCallback;
+        public DemoCollectionPagerAdapter(FragmentManager fm, ReadFragment.Callback callback) {
             super(fm);
+            mCallback = callback;
         }
 
         @Override
@@ -137,6 +148,7 @@ public class MainActivity extends AppCompatActivity
                 fragment.setArguments(args);
             } else {
                 fragment = new ReadFragment();
+                ((ReadFragment)fragment).setCallback(mCallback);
                 Bundle args = new Bundle();
                 args.putInt(ReadFragment.ARG_OBJECT, i + 1);
                 fragment.setArguments(args);
