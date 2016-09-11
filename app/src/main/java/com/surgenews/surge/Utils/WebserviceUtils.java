@@ -8,14 +8,11 @@ import android.net.NetworkInfo;
 public class WebserviceUtils {
 
     //url
-    public static final String BASE_URL = "http://whoismyrepresentative.com/";
+    public static final String BASE_URL = "http://54.162.192.248:8080/";
 
     //endpoints
-    public static final String ENDPOINT_GET_ALL_REPS_BY_STATE = "getall_reps_bystate.php";
-
-    //query
-    public static final String QUERY_STATE = "state";
-    public static final String QUERY_OUTPUT = "output";
+    public static final String ENDPOINT_SIGN_UP = "api/v1/user/signUp/";
+    public static final String ENDPOINT_LOGIN = "api/v1/user/signIn/";
 
 
     public static boolean isInternetAvailable(Context context) {

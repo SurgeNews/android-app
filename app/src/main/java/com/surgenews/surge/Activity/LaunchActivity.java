@@ -10,9 +10,22 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
+import com.surgenews.surge.Controller.SignUpTask;
+import com.surgenews.surge.Controller.WebserviceClient;
+import com.surgenews.surge.Controller.WebserviceInterface;
 import com.surgenews.surge.Fragment.LoginRegisterFragment;
+import com.surgenews.surge.Model.SignUpRequest;
+import com.surgenews.surge.Model.SignupResponse;
 import com.surgenews.surge.R;
+
+import java.util.HashMap;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by anishhegde on 10/09/16.
@@ -49,7 +62,8 @@ public class LaunchActivity extends AppCompatActivity implements LoginRegisterFr
 
     @Override
     public void onSignUpClicked() {
-
+        //new SignUpTask().execute();
+        signUp();
     }
 
     void openNews(){
@@ -100,5 +114,38 @@ public class LaunchActivity extends AppCompatActivity implements LoginRegisterFr
                 return "SignUp";
             }
         }
+    }
+    void signUp(){
+        WebserviceInterface webserviceInterface = WebserviceClient.getClient().create(WebserviceInterface.class);
+        Call<SignupResponse> call = webserviceInterface.signUp(new SignUpRequest("anish","admin"));
+        call.enqueue(new Callback<SignupResponse>() {
+            @Override
+            public void onResponse(Call<SignupResponse> call, Response<SignupResponse> response) {
+                Log.d("SignUp", "Sign up token: " + response.body().getToken());
+            }
+
+            @Override
+            public void onFailure(Call<SignupResponse> call, Throwable t) {
+                Log.e("SignUp", t.toString());
+            }
+        });
+
+    }
+
+    void login(){
+        WebserviceInterface webserviceInterface = WebserviceClient.getClient().create(WebserviceInterface.class);
+        Call<SignupResponse> call = webserviceInterface.signUp(new SignUpRequest("anish","admin"));
+        call.enqueue(new Callback<SignupResponse>() {
+            @Override
+            public void onResponse(Call<SignupResponse> call, Response<SignupResponse> response) {
+                Log.d("SignIn", "Sign In token: " + response.body().getToken());
+            }
+
+            @Override
+            public void onFailure(Call<SignupResponse> call, Throwable t) {
+                Log.e("SignIn", t.toString());
+            }
+        });
+
     }
 }

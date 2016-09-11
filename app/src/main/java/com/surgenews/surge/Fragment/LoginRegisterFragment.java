@@ -34,7 +34,7 @@ public class LoginRegisterFragment extends Fragment {
         if(mType == LaunchActivity.LOGIN) {
             mLoginButton.setText("Login");
         } else {
-            mLoginButton.setText("SignUp");
+            mLoginButton.setText("SignUpRequest");
         }
       setLoginButtonListener();
         return rootView;

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+//import com.squareup.picasso.Picasso;
 import com.surgenews.surge.Fragment.ReadFragment;
 import com.surgenews.surge.Model.RssModelItem;
 import com.surgenews.surge.R;
@@ -66,9 +66,9 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
         // - replace the contents of the view with that elemen
         setText(holder.mTitleText,mDataset.get(position).getTitle());
         setText(holder.mDesctext,mDataset.get(position).getDescription());
-        Picasso.with(mContext).load(mDataset.get(position).getImageUrl())
-                .placeholder(R.drawable.surge_placeholder)
-                .error(R.drawable.surge_placeholder).into(holder.mImage);
+//        Picasso.with(mContext).load(mDataset.get(position).getImageUrl())
+//                .placeholder(R.drawable.surge_placeholder)
+//                .error(R.drawable.surge_placeholder).into(holder.mImage);
 
         holder.mTitleText.setOnClickListener(new View.OnClickListener() {
             @Override
