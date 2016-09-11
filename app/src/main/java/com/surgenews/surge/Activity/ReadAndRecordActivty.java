@@ -25,10 +25,21 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.surgenews.surge.Controller.WebserviceClient;
+import com.surgenews.surge.Controller.WebserviceInterface;
+import com.surgenews.surge.Model.SignupResponse;
+import com.surgenews.surge.Model.UploadResponse;
 import com.surgenews.surge.R;
 
 import java.io.File;
 import java.io.IOException;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by anishhegde on 10/09/16.
@@ -41,6 +52,7 @@ public class ReadAndRecordActivty extends AppCompatActivity implements View.OnCl
     private ImageView mBtStop;
     private MediaRecorder myAudioRecorder;
     private static final int REQUEST_CODE_PERMISSIONS = 0x1;
+    private String mFileName;
 
     private RecordState mState = RecordState.Default;
 
@@ -165,6 +177,7 @@ public class ReadAndRecordActivty extends AppCompatActivity implements View.OnCl
                 + System.currentTimeMillis()
                 + ".3gp";
         Log.d("path",path);
+        mFileName = path;
         return path;
     }
 
@@ -203,6 +216,24 @@ public class ReadAndRecordActivty extends AppCompatActivity implements View.OnCl
 
         mState = RecordState.Stopped;
         setUpButtonVisibility();
+
+        WebserviceInterface webserviceInterface = WebserviceClient.getClient().create(WebserviceInterface.class);
+
+        File file = new File(mFileName);
+        MultipartBody.Part filePart = MultipartBody.Part.createFormData("filename", file.getName(), RequestBody.create(MediaType.parse("audio/*"), file));
+
+        Call<UploadResponse> call = webserviceInterface.uploadAttachment(filePart);
+        call.enqueue(new Callback<UploadResponse>() {
+            @Override
+            public void onResponse(Call<UploadResponse> call, Response<UploadResponse> response) {
+                Toast.makeText(getApplicationContext(),"Uploaded",Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<UploadResponse> call, Throwable t) {
+                Toast.makeText(getApplicationContext(),"Uploaded error",Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override

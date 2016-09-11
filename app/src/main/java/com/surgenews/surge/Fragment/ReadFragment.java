@@ -67,7 +67,7 @@ public class ReadFragment extends Fragment {
 
     void setFeed(){
         if(WebserviceUtils.isInternetAvailable(getActivity().getApplicationContext())) {
-            DownloadManager.Instance().downloadData("http://rss.nytimes.com/services/xml/rss/nyt/InternationalHome.xml", new DownloadManager.Callback() {
+            DownloadManager.Instance().downloadData("http://rss.cnn.com/rss/edition.rss", new DownloadManager.Callback() {
                 @Override
                 public void onFeed(Feed feed) {
                     if(feed != null) {

@@ -2,15 +2,19 @@ package com.surgenews.surge.Controller;
 
 import com.surgenews.surge.Model.SignUpRequest;
 import com.surgenews.surge.Model.SignupResponse;
+import com.surgenews.surge.Model.UploadResponse;
 import com.surgenews.surge.Utils.WebserviceUtils;
 
 import java.util.HashMap;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 
@@ -27,5 +31,9 @@ public interface WebserviceInterface {
     @Headers( "Content-Type: application/json" )
     @POST(WebserviceUtils.ENDPOINT_LOGIN)
     Call<SignupResponse> login(@Body SignUpRequest body);
+
+    @Multipart
+    @POST(WebserviceUtils.ENDPOINT_AUDIO_UPLOAD)
+    Call<UploadResponse> uploadAttachment(@Part MultipartBody.Part filePart);
 
 }

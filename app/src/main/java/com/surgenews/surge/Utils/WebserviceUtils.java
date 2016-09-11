@@ -13,6 +13,7 @@ public class WebserviceUtils {
     //endpoints
     public static final String ENDPOINT_SIGN_UP = "api/v1/user/signUp/";
     public static final String ENDPOINT_LOGIN = "api/v1/user/signIn/";
+    public static final String ENDPOINT_AUDIO_UPLOAD = "api/v1/audio/upload/";
 
 
     public static boolean isInternetAvailable(Context context) {

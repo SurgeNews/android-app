@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
-import com.surgenews.surge.Controller.SignUpTask;
 import com.surgenews.surge.Controller.WebserviceClient;
 import com.surgenews.surge.Controller.WebserviceInterface;
 import com.surgenews.surge.Fragment.LoginRegisterFragment;
@@ -20,8 +19,6 @@ import com.surgenews.surge.Model.SignUpRequest;
 import com.surgenews.surge.Model.SignupResponse;
 import com.surgenews.surge.R;
 
-import java.util.HashMap;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
