@@ -2,7 +2,11 @@ package com.surgenews.surge.Activity;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.media.Image;
 import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +22,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.surgenews.surge.R;
@@ -31,9 +36,9 @@ import java.io.IOException;
 public class ReadAndRecordActivty extends AppCompatActivity implements View.OnClickListener{
 
     WebView mWebview;
-    private Button mBtStart;
+    private ImageView mBtStart;
     //private Button mBtPause;
-    private Button mBtStop;
+    private ImageView mBtStop;
     private MediaRecorder myAudioRecorder;
     private static final int REQUEST_CODE_PERMISSIONS = 0x1;
 
@@ -56,23 +61,44 @@ public class ReadAndRecordActivty extends AppCompatActivity implements View.OnCl
         mWebview = (WebView) findViewById(R.id.wv_news);
         mWebview.getSettings().setJavaScriptEnabled(true);
         mWebview.loadUrl(url);
-
-        mWebview.setWebViewClient(new WebViewClient() {
-
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-
-                return true;
-            }
-        });
-
+        final Context mContext = this;
+        mWebview.setWebViewClient(new AppWebViewClients(this));
         setUpRecorder();
     }
 
+    public class AppWebViewClients extends WebViewClient {
+        private ProgressDialog progressDialog;
+        private Context mContext;
+
+        public AppWebViewClients(Context context) {
+            mContext = context;
+            progressDialog = new ProgressDialog(mContext);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage("Loading...");
+            progressDialog.show();
+        }
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            // TODO Auto-generated method stub
+            view.loadUrl(url);
+            return true;
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            // TODO Auto-generated method stub
+            super.onPageFinished(view, url);
+            if(progressDialog.isShowing()){
+                progressDialog.dismiss();
+            }
+        }
+    }
+
     void setupButtons(){
-        mBtStart = (Button) findViewById(R.id.bt_record);
+        mBtStart = (ImageView) findViewById(R.id.bt_record);
        // mBtPause = (Button) findViewById(R.id.bt_pause);
-        mBtStop = (Button) findViewById(R.id.bt_stop);
+        mBtStop = (ImageView) findViewById(R.id.bt_stop);
         mBtStart.setOnClickListener(this);
        // mBtPause.setOnClickListener(this);
         mBtStop.setOnClickListener(this);
@@ -90,6 +116,7 @@ public class ReadAndRecordActivty extends AppCompatActivity implements View.OnCl
                // mBtPause.setActivated(true);
                 mBtStop.setActivated(false);
                 mBtStart.setActivated(false);
+                mBtStart.setBackgroundColor(Color.parseColor("#ff0000"));
                 break;
             //case Paused:
                 //mBtPause.setActivated(false);
@@ -100,6 +127,7 @@ public class ReadAndRecordActivty extends AppCompatActivity implements View.OnCl
                // mBtPause.setActivated(false);
                 mBtStop.setActivated(false);
                 mBtStart.setActivated(false);
+                mBtStart.setBackgroundColor(Color.parseColor("#ff0000ff"));
                 break;
         }
     }
@@ -130,7 +158,7 @@ public class ReadAndRecordActivty extends AppCompatActivity implements View.OnCl
     }
 
     private String getNextFileName() {
-        String path =  Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)
+        String path =  Environment.getExternalStorageDirectory()
                 .getAbsolutePath()
                 + File.separator
                 + "Record_"
@@ -145,6 +173,10 @@ public class ReadAndRecordActivty extends AppCompatActivity implements View.OnCl
         try {
             myAudioRecorder.prepare();
             myAudioRecorder.start();
+            toast("Recording Started");
+
+            mState = RecordState.Started;
+            setUpButtonVisibility();
         }
 
         catch (IllegalStateException e) {
@@ -156,7 +188,7 @@ public class ReadAndRecordActivty extends AppCompatActivity implements View.OnCl
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        toast("Recording Started");
+
     }
 
     void pause(){
@@ -168,6 +200,9 @@ public class ReadAndRecordActivty extends AppCompatActivity implements View.OnCl
         myAudioRecorder.release();
         myAudioRecorder  = null;
         toast("Stopped Recording");
+
+        mState = RecordState.Stopped;
+        setUpButtonVisibility();
     }
 
     @Override
